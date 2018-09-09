@@ -1,37 +1,34 @@
 package org.kaa.moneytransfer.control;
 
 import org.kaa.moneytransfer.entity.Account;
-import org.kaa.moneytransfer.entity.NotEnoughMoneyException;
+import org.kaa.moneytransfer.entity.Operation;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import static java.lang.String.format;
+import java.util.List;
 
 public class BankingService {
-  private Lock lock;
   private AccountService accountService;
+  private OperationService operationService;
 
-  public BankingService(AccountService accountService) {
+  public BankingService(AccountService accountService, OperationService operationService) {
     this.accountService = accountService;
-    this.lock = new ReentrantLock();
+    this.operationService = operationService;
   }
 
   public void transfer(long from, long to, long amount){
     validate(amount);
-    try{
-      Account fromAccount = accountService.getAccount(from);
-      long fromAmount = fromAccount.getAmount();
-      if(fromAmount < amount){
-        throw new NotEnoughMoneyException(format("Account %d have amount %d. We can not transfer %d amount.", from, fromAmount, amount));
-      }
-      Account toAccount = accountService.getAccount(to);
-      lock.lock();
-      fromAccount.withdraw(amount);
-      toAccount.deposit(amount);
-    } finally {
-      lock.unlock();
-    }
+    Account fromAccount = getAccount(from);
+    Account toAccount = getAccount(to);
+    fromAccount.withdraw(amount);
+    toAccount.deposit(amount);
+    operationService.log(new Operation(from, to, amount));
+  }
+
+  public Account getAccount(long id){
+    return accountService.getAccount(id);
+  }
+
+  public List<Operation> operations(){
+    return operationService.getOperations();
   }
 
   private void validate(long value){
