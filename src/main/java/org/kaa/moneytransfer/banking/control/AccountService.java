@@ -1,7 +1,7 @@
-package org.kaa.moneytransfer.control;
+package org.kaa.moneytransfer.banking.control;
 
-import org.kaa.moneytransfer.entity.Account;
-import org.kaa.moneytransfer.entity.AccountDoesNotExistException;
+import org.kaa.moneytransfer.banking.entity.Account;
+import org.kaa.moneytransfer.banking.entity.AccountDoesNotExistException;
 
 import static java.lang.String.format;
 

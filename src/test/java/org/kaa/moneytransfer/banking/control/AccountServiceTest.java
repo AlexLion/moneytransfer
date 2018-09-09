@@ -1,9 +1,9 @@
-package org.kaa.moneytransfer.control;
+package org.kaa.moneytransfer.banking.control;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.kaa.moneytransfer.entity.Account;
-import org.kaa.moneytransfer.entity.AccountDoesNotExistException;
+import org.kaa.moneytransfer.banking.entity.Account;
+import org.kaa.moneytransfer.banking.entity.AccountDoesNotExistException;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -1,17 +1,17 @@
-package org.kaa.moneytransfer.entity;
+package org.kaa.moneytransfer.banking.entity;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.String.format;
 
-@Getter
-@Setter
+
 public class Account {
+  @Getter
   private long id;
+  @Getter
   private volatile long amount;
   private Lock lock;
 
@@ -27,11 +27,14 @@ public class Account {
 
   public void withdraw(long amount){
     lock.lock();
-    if(this.amount < amount){
-      throw new NotEnoughMoneyException(format("Account %d have amount %d. We can not transfer %d amount.", id, this.amount, amount));
+    try {
+      if (this.amount < amount) {
+        throw new NotEnoughMoneyException(format("Account %d have amount %d. We can not transfer %d amount.", id, this.amount, amount));
+      }
+      this.amount -= amount;
+    } finally {
+      lock.unlock();
     }
-    this.amount -= amount;
-    lock.unlock();
   }
 
   public void deposit(long amount){

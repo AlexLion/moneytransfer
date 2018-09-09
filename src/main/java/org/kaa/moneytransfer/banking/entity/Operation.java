@@ -1,4 +1,4 @@
-package org.kaa.moneytransfer.entity;
+package org.kaa.moneytransfer.banking.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
