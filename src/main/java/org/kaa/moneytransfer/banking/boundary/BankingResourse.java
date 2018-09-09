@@ -1,6 +1,5 @@
 package org.kaa.moneytransfer.banking.boundary;
 
-import com.google.inject.Inject;
 import org.kaa.moneytransfer.banking.control.BankingService;
 import org.slf4j.Logger;
 
@@ -19,7 +18,6 @@ public class BankingResourse {
 
   private BankingService bankingService;
 
-  @Inject
   public BankingResourse(BankingService bankingService){
     this.bankingService = bankingService;
   }
